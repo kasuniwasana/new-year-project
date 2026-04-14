@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aluth Avurudu | New Year Wishes 🎊</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Noto+Sans+Sinhala:wght@300;400;700&family=Noto+Sans+Tamil:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+  :root {
+    --gold: #FFD700;
+    --deep-gold: #B8860B;
+    --saffron: #FF6B00;
+    --crimson: #DC143C;
+    --emerald: #00A86B;
+    --bg-dark: #0a0208;
+    --lotus-pink: #FF85A2;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-dark);
+    overflow-x: hidden;
+    font-family: 'Playfair Display', serif;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #FFD700, transparent);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s;
+    mix-blend-mode: screen;
+  }
+
+  #canvas-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+  }
+
+  .main-wrapper {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  /* Mandala ring */
+  .mandala-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(700px, 95vw);
+    height: min(700px, 95vw);
+    border-radius: 50%;
+    border: 1px solid rgba(255,215,0,0.15);
+    animation: rotateSlow 40s linear infinite;
+  }
+  .mandala-ring::before {
+    content: '';
+    position: absolute;
+    inset: 15px;
+    border-radius: 50%;
+    border: 2px dashed rgba(255,107,0,0.2);
+    animation: rotateSlow 20s linear infinite reverse;
+  }
+  .mandala-ring::after {
+    content: '';
+    position: absolute;
+    inset: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,133,162,0.15);
+    animation: rotateSlow 30s linear infinite;
+  }
+
+  @keyframes rotateSlow { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+  /* Header group */
+  .header-group {
+    text-align: center;
+    margin-bottom: 10px;
+    animation: fadeUp 1s ease 0.3s both;
+  }
+
+  .year-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 20px;
+    border: 1px solid rgba(255,215,0,0.3);
+    border-radius: 100px;
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    background: rgba(255,215,0,0.05);
+    backdrop-filter: blur(10px);
+  }
+
+  .main-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(36px, 8vw, 90px);
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, #FFD700 0%, #FF6B00 40%, #FFD700 60%, #FFFACD 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 40px rgba(255,215,0,0.3));
+    text-shadow: none;
+    position: relative;
+  }
+
+  .main-title .line2 {
+    display: block;
+    font-size: clamp(22px, 4vw, 50px);
+    font-weight: 400;
+    letter-spacing: 8px;
+    margin-top: 8px;
+    background: linear-gradient(135deg, #FF85A2, #FF6B00, #FF85A2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Sinhala & Tamil text */
+  .native-texts {
+    display: flex;
+    gap: clamp(20px, 5vw, 60px);
+    margin: 24px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 1s ease 0.6s both;
+  }
+
+  .native-block {
+    text-align: center;
+    padding: 16px 28px;
+    background: rgba(255,215,0,0.04);
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .native-block:hover {
+    transform: translateY(-4px) scale(1.02);
+    border-color: rgba(255,215,0,0.5);
+  }
+  .native-block::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,215,0,0.08), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .native-block:hover::before { opacity: 1; }
+
+  .native-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(255,215,0,0.5);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .sinhala-text {
+    font-family: 'Noto Sans Sinhala', sans-serif;
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 700;
+    color: #FFD700;
+    line-height: 1.4;
+    text-shadow: 0 0 30px rgba(255,215,0,0.4);
+  }
+
+  .tamil-text {
+    font-family: 'Noto Sans Tamil', sans-serif;
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 700;
+    color: #FF85A2;
+    line-height: 1.4;
+    text-shadow: 0 0 30px rgba(255,133,162,0.4);
+  }
+
+  .native-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  /* Wish card */
+  .wish-card {
+    max-width: 700px;
+    text-align: center;
+    padding: 36px 40px;
+    background: linear-gradient(135deg, rgba(255,215,0,0.07), rgba(255,107,0,0.05), rgba(220,20,60,0.05));
+    border: 1px solid rgba(255,215,0,0.25);
+    border-radius: 24px;
+    backdrop-filter: blur(30px);
+    margin: 20px 0;
+    animation: fadeUp 1s ease 0.9s both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wish-card::before {
+    content: '❈';
+    position: absolute;
+    top: 12px; left: 20px;
+    font-size: 24px;
+    color: rgba(255,215,0,0.2);
+  }
+  .wish-card::after {
+    content: '❈';
+    position: absolute;
+    bottom: 12px; right: 20px;
+    font-size: 24px;
+    color: rgba(255,215,0,0.2);
+  }
+
+  .wish-text {
+    font-size: clamp(15px, 2vw, 20px);
+    color: rgba(255,245,220,0.85);
+    line-height: 1.9;
+    font-style: italic;
+  }
+
+  .wish-text strong {
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  /* Divider */
+  .ornament-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0;
+    color: rgba(255,215,0,0.4);
+    font-size: 18px;
+  }
+  .ornament-divider::before,
+  .ornament-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.3), transparent);
+    max-width: 120px;
+  }
+
+  /* Symbols row */
+  .symbols-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 20px 0;
+    animation: fadeUp 1s ease 1.2s both;
+    flex-wrap: wrap;
+  }
+
+  .symbol-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .symbol-icon {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    border: 1px solid rgba(255,215,0,0.2);
+    background: rgba(255,215,0,0.06);
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: floatIcon 3s ease-in-out infinite;
+  }
+  .symbol-item:nth-child(2) .symbol-icon { animation-delay: 0.4s; }
+  .symbol-item:nth-child(3) .symbol-icon { animation-delay: 0.8s; }
+  .symbol-item:nth-child(4) .symbol-icon { animation-delay: 1.2s; }
+  .symbol-item:nth-child(5) .symbol-icon { animation-delay: 1.6s; }
+
+  .symbol-icon:hover {
+    transform: scale(1.2) rotate(10deg);
+    box-shadow: 0 0 30px rgba(255,215,0,0.3);
+  }
+
+  @keyframes floatIcon {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .symbol-label {
+    font-size: 10px;
+    color: rgba(255,215,0,0.5);
+    letter-spacing: 1px;
+  }
+
+  /* Bottom text */
+  .bottom-text {
+    text-align: center;
+    margin-top: 16px;
+    animation: fadeUp 1s ease 1.5s both;
+  }
+
+  .from-text {
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+  }
+
+  /* Floating petals */
+  .petal {
+    position: fixed;
+    pointer-events: none;
+    z-index: 5;
+    font-size: 18px;
+    opacity: 0;
+    animation: petalFall linear infinite;
+  }
+
+  @keyframes petalFall {
+    0% { transform: translateY(-50px) rotate(0deg); opacity: 0.8; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* Glow orbs */
+  .glow-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 1;
+    animation: orbPulse 4s ease-in-out infinite;
+  }
+  .orb1 { width: 300px; height: 300px; background: rgba(255,107,0,0.12); top: 10%; left: 5%; animation-delay: 0s; }
+  .orb2 { width: 400px; height: 400px; background: rgba(220,20,60,0.08); bottom: 10%; right: 5%; animation-delay: 1.5s; }
+  .orb3 { width: 250px; height: 250px; background: rgba(0,168,107,0.1); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: 0.7s; }
+
+  @keyframes orbPulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 1; }
+  }
+  .orb3 {
+    animation: orbPulse3 4s ease-in-out infinite;
+  }
+  @keyframes orbPulse3 {
+    0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; }
+    50% { transform: translate(-50%,-50%) scale(1.3); opacity: 1; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Sparkle dots */
+  .sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 5;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #FFD700;
+    animation: sparkleFade 2s ease-in-out infinite;
+  }
+
+  @keyframes sparkleFade {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1); }
+  }
+
+  /* Kolam pattern overlay */
+  .kolam-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.03;
+    background-image: 
+      radial-gradient(circle at 20% 20%, #FFD700 1px, transparent 1px),
+      radial-gradient(circle at 80% 80%, #FF6B00 1px, transparent 1px),
+      radial-gradient(circle at 60% 30%, #FF85A2 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* ── Name Input Screen ── */
+  #name-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #12010a 0%, #0a0208 100%);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  #name-screen.hide {
+    opacity: 0;
+    transform: scale(1.05);
+    pointer-events: none;
+  }
+
+  .name-box {
+    text-align: center;
+    padding: 50px 44px;
+    background: rgba(255,215,0,0.04);
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 28px;
+    backdrop-filter: blur(30px);
+    max-width: 480px;
+    width: 90%;
+    position: relative;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .name-box-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(18px, 4vw, 28px);
+    background: linear-gradient(135deg, #FFD700, #FF6B00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  .name-box-sub {
+    font-size: 13px;
+    color: rgba(255,215,0,0.45);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+
+  .name-input-wrap {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .name-input {
+    width: 100%;
+    padding: 16px 20px;
+    background: rgba(255,215,0,0.06);
+    border: 1px solid rgba(255,215,0,0.3);
+    border-radius: 14px;
+    color: #FFD700;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    caret-color: #FFD700;
+  }
+  .name-input::placeholder { color: rgba(255,215,0,0.25); font-style: italic; }
+  .name-input:focus {
+    border-color: rgba(255,215,0,0.7);
+    box-shadow: 0 0 30px rgba(255,215,0,0.12);
+  }
+
+  .wish-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,107,0,0.2));
+    border: 1px solid rgba(255,215,0,0.4);
+    border-radius: 14px;
+    color: #FFD700;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 15px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .wish-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,107,0,0.1));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .wish-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,215,0,0.15); }
+  .wish-btn:hover::before { opacity: 1; }
+  .wish-btn:active { transform: scale(0.98); }
+
+  .skip-link {
+    display: block;
+    margin-top: 16px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .skip-link:hover { color: rgba(255,255,255,0.4); }
+
+  /* Personalized greeting */
+  .personal-greeting {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(16px, 3vw, 26px);
+    color: #FFD700;
+    text-align: center;
+    margin-bottom: 8px;
+    animation: fadeUp 1s ease 0.2s both;
+    filter: drop-shadow(0 0 20px rgba(255,215,0,0.4));
+    display: none;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 600px) {
+    .wish-card { padding: 24px 20px; }
+    .native-texts { gap: 16px; }
+    .native-block { padding: 12px 20px; }
+    .name-box { padding: 36px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- Background canvas -->
+<div id="canvas-container">
+  <canvas id="bg-canvas"></canvas>
+</div>
+
+<!-- Decorative elements -->
+<div class="glow-orb orb1"></div>
+<div class="glow-orb orb2"></div>
+<div class="glow-orb orb3"></div>
+<div class="kolam-overlay"></div>
+<div class="mandala-ring"></div>
+
+<!-- Name Input Screen -->
+<div id="name-screen">
+  <div class="name-box">
+    <div class="name-box-title">🌸 Aluth Avurudu 🌸</div>
+    <div class="name-box-sub">Sinhala &amp; Tamil New Year 2026</div>
+    <div class="name-input-wrap">
+      <input
+        class="name-input"
+        id="nameInput"
+        type="text"
+        placeholder="ඔබේ නම ලියන්න... (Your Name)"
+        maxlength="30"
+        autocomplete="off"
+      />
+    </div>
+    <button class="wish-btn" id="wishBtn" onclick="showWish()">
+      ✦ &nbsp; Open Your Wish &nbsp; ✦
+    </button>
+    <span class="skip-link" onclick="showWish()">Skip →</span>
+  </div>
+</div>
+
+<!-- Main content -->
+<div class="main-wrapper">
+  <div class="header-group">
+    <div id="personalGreeting" class="personal-greeting"></div>
+    <div class="year-badge">✦ April 2026 · Saka 1948 ✦</div>
+    <h1 class="main-title">
+      ALUTH AVURUDU
+      <span class="line2">S I N H A L A &nbsp;&amp;&nbsp; T A M I L</span>
+    </h1>
+  </div>
+
+  <div class="native-texts">
+    <div class="native-block">
+      <div class="native-label">Sinhala</div>
+      <div class="sinhala-text">සුභ අලුත් අවුරුද්දක්<br>වේවා! 🌸</div>
+      <div class="native-sub">Happy New Year</div>
+    </div>
+    <div class="native-block">
+      <div class="native-label">Tamil</div>
+      <div class="tamil-text">இனிய புத்தாண்டு<br>நல்வாழ்த்துக்கள்! 🌺</div>
+      <div class="native-sub">Happy Puthandu</div>
+    </div>
+  </div>
+
+  <div class="symbols-row">
+    <div class="symbol-item">
+      <div class="symbol-icon">🪔</div>
+      <div class="symbol-label">Light</div>
+    </div>
+    <div class="symbol-item">
+      <div class="symbol-icon">🌸</div>
+      <div class="symbol-label">Bloom</div>
+    </div>
+    <div class="symbol-item">
+      <div class="symbol-icon">🎊</div>
+      <div class="symbol-label">Joy</div>
+    </div>
+    <div class="symbol-item">
+      <div class="symbol-icon">🍯</div>
+      <div class="symbol-label">Kiribath</div>
+    </div>
+    <div class="symbol-item">
+      <div class="symbol-icon">☀️</div>
+      <div class="symbol-label">Renewal</div>
+    </div>
+  </div>
+
+  <div class="wish-card">
+    <div class="ornament-divider">❖ ✦ ❖</div>
+    <p class="wish-text">
+      <span id="wishPersonalLine">As the sun moves into</span> <strong>Mesha Rashiya</strong>, may this auspicious 
+      New Year bring you <strong>boundless joy</strong>, 
+      good health, and the warmth of loved ones.<br><br>
+      May your home be filled with the sweetness of 
+      <strong>Kiribath</strong>, the light of oil lamps, and 
+      the <strong>blessings of generations</strong>.<br><br>
+      🌺 <em>Wishing you peace, prosperity, and happiness in every sunrise of 2026</em> 🌺
+    </p>
+    <div class="ornament-divider">❖ ✦ ❖</div>
+  </div>
+
+  <div class="bottom-text">
+    <div class="from-text">✦ &nbsp; With Love &amp; Light &nbsp; ✦</div>
+  </div>
+</div>
+
+<script>
+// Name screen logic
+function showWish() {
+  const nameInput = document.getElementById('nameInput');
+  const name = nameInput.value.trim();
+  const greeting = document.getElementById('personalGreeting');
+
+  if (name) {
+    greeting.textContent = '🌺 Dear ' + name + ' 🌺';
+    greeting.style.display = 'block';
+    // Update wish text to include name
+    const wishWrap = document.getElementById('wishPersonalLine');
+    if (wishWrap) wishWrap.innerHTML = `Dear <strong>${name}</strong>, as the sun moves into`;
+  }
+
+  // Trigger fireworks on reveal
+  for (let i = 0; i < 5; i++) setTimeout(createFirework, i * 300);
+
+  document.getElementById('name-screen').classList.add('hide');
+  setTimeout(() => {
+    document.getElementById('name-screen').style.display = 'none';
+  }, 900);
+}
+
+// Enter key support
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('nameInput');
+  if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') showWish(); });
+});
+
+// Custom cursor
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+
+// Three.js 3D background
+const canvas = document.getElementById('bg-canvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 30;
+
+// Particle system — golden stars
+const particleCount = 800;
+const positions = new Float32Array(particleCount * 3);
+const colors = new Float32Array(particleCount * 3);
+const sizes = new Float32Array(particleCount);
+
+const colorPalette = [
+  new THREE.Color('#FFD700'),
+  new THREE.Color('#FF6B00'),
+  new THREE.Color('#FF85A2'),
+  new THREE.Color('#00A86B'),
+  new THREE.Color('#DC143C'),
+];
+
+for (let i = 0; i < particleCount; i++) {
+  positions[i*3]   = (Math.random() - 0.5) * 120;
+  positions[i*3+1] = (Math.random() - 0.5) * 120;
+  positions[i*3+2] = (Math.random() - 0.5) * 60;
+
+  const c = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+  colors[i*3]   = c.r;
+  colors[i*3+1] = c.g;
+  colors[i*3+2] = c.b;
+
+  sizes[i] = Math.random() * 2.5 + 0.5;
+}
+
+const geo = new THREE.BufferGeometry();
+geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+const mat = new THREE.PointsMaterial({
+  size: 0.4,
+  vertexColors: true,
+  transparent: true,
+  opacity: 0.7,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false,
+  sizeAttenuation: true
+});
+
+const particles = new THREE.Points(geo, mat);
+scene.add(particles);
+
+// Floating 3D rings (torus)
+const rings = [];
+const ringColors = [0xFFD700, 0xFF6B00, 0xFF85A2, 0x00A86B];
+for (let i = 0; i < 4; i++) {
+  const ringGeo = new THREE.TorusGeometry(8 + i * 4, 0.06, 8, 60);
+  const ringMat = new THREE.MeshBasicMaterial({
+    color: ringColors[i],
+    transparent: true,
+    opacity: 0.12 - i * 0.02,
+    wireframe: false
+  });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = Math.random() * Math.PI;
+  ring.rotation.y = Math.random() * Math.PI;
+  scene.add(ring);
+  rings.push(ring);
+}
+
+// Floating lotuses (icosahedra as gems)
+const gems = [];
+const gemColors = [0xFFD700, 0xFF6B00, 0xFF85A2, 0xDC143C, 0x00A86B];
+for (let i = 0; i < 10; i++) {
+  const gemGeo = new THREE.IcosahedronGeometry(0.6 + Math.random() * 0.8, 0);
+  const gemMat = new THREE.MeshBasicMaterial({
+    color: gemColors[i % gemColors.length],
+    transparent: true,
+    opacity: 0.25,
+    wireframe: true
+  });
+  const gem = new THREE.Mesh(gemGeo, gemMat);
+  gem.position.set(
+    (Math.random() - 0.5) * 40,
+    (Math.random() - 0.5) * 30,
+    (Math.random() - 0.5) * 20
+  );
+  gem.userData = {
+    vx: (Math.random() - 0.5) * 0.02,
+    vy: (Math.random() - 0.5) * 0.02,
+    rx: Math.random() * 0.02,
+    ry: Math.random() * 0.02,
+  };
+  scene.add(gem);
+  gems.push(gem);
+}
+
+// Firework bursts
+const fireworks = [];
+function createFirework() {
+  const count = 60;
+  const fGeo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count * 3);
+  const vel = [];
+  const cx = (Math.random() - 0.5) * 30;
+  const cy = (Math.random() - 0.5) * 20;
+  const cz = (Math.random() - 0.5) * 10;
+
+  for (let i = 0; i < count; i++) {
+    pos[i*3] = cx; pos[i*3+1] = cy; pos[i*3+2] = cz;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    const sp = 0.1 + Math.random() * 0.15;
+    vel.push(
+      Math.sin(phi)*Math.cos(theta)*sp,
+      Math.sin(phi)*Math.sin(theta)*sp,
+      Math.cos(phi)*sp
+    );
+  }
+
+  fGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const c = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+  const fMat = new THREE.PointsMaterial({
+    color: c,
+    size: 0.3,
+    transparent: true,
+    opacity: 1,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  });
+
+  const fw = new THREE.Points(fGeo, fMat);
+  scene.add(fw);
+  fireworks.push({ points: fw, velocities: vel, life: 0, maxLife: 80, geo: fGeo });
+}
+
+setInterval(createFirework, 1800);
+
+let mouseX = 0, mouseY = 0;
+document.addEventListener('mousemove', e => {
+  mouseX = (e.clientX / window.innerWidth - 0.5) * 0.5;
+  mouseY = (e.clientY / window.innerHeight - 0.5) * 0.5;
+});
+
+let clock = 0;
+
+function animate() {
+  requestAnimationFrame(animate);
+  clock += 0.005;
+
+  // Particle drift
+  particles.rotation.y = clock * 0.05;
+  particles.rotation.x = clock * 0.02;
+
+  // Camera slight movement
+  camera.position.x += (mouseX * 5 - camera.position.x) * 0.03;
+  camera.position.y += (-mouseY * 5 - camera.position.y) * 0.03;
+  camera.lookAt(0, 0, 0);
+
+  // Rings
+  rings.forEach((r, i) => {
+    r.rotation.x += 0.002 + i * 0.001;
+    r.rotation.y += 0.003 + i * 0.0005;
+    r.rotation.z += 0.001;
+  });
+
+  // Gems
+  gems.forEach(g => {
+    g.position.x += g.userData.vx;
+    g.position.y += g.userData.vy;
+    g.rotation.x += g.userData.rx;
+    g.rotation.y += g.userData.ry;
+
+    if (Math.abs(g.position.x) > 25) g.userData.vx *= -1;
+    if (Math.abs(g.position.y) > 18) g.userData.vy *= -1;
+  });
+
+  // Fireworks
+  for (let i = fireworks.length - 1; i >= 0; i--) {
+    const fw = fireworks[i];
+    fw.life++;
+    const pos = fw.geo.attributes.position.array;
+    for (let j = 0; j < pos.length / 3; j++) {
+      pos[j*3]   += fw.velocities[j*3];
+      pos[j*3+1] += fw.velocities[j*3+1] - 0.002;
+      pos[j*3+2] += fw.velocities[j*3+2];
+    }
+    fw.geo.attributes.position.needsUpdate = true;
+    fw.points.material.opacity = 1 - fw.life / fw.maxLife;
+
+    if (fw.life >= fw.maxLife) {
+      scene.remove(fw.points);
+      fireworks.splice(i, 1);
+    }
+  }
+
+  renderer.render(scene, camera);
+}
+animate();
+
+// Resize
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// Floating petals
+const petalEmojis = ['🌸', '🌺', '🌼', '✨', '🏵️'];
+function spawnPetal() {
+  const p = document.createElement('div');
+  p.className = 'petal';
+  p.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+  p.style.left = Math.random() * 100 + 'vw';
+  p.style.top = '-50px';
+  p.style.animationDuration = (6 + Math.random() * 6) + 's';
+  p.style.animationDelay = (Math.random() * 2) + 's';
+  p.style.fontSize = (14 + Math.random() * 14) + 'px';
+  document.body.appendChild(p);
+  setTimeout(() => p.remove(), 14000);
+}
+setInterval(spawnPetal, 600);
+
+// Sparkles
+function spawnSparkle() {
+  const s = document.createElement('div');
+  s.className = 'sparkle';
+  s.style.left = Math.random() * 100 + 'vw';
+  s.style.top = Math.random() * 100 + 'vh';
+  s.style.animationDuration = (1 + Math.random() * 2) + 's';
+  s.style.animationDelay = Math.random() + 's';
+  s.style.background = Math.random() > 0.5 ? '#FFD700' : '#FF85A2';
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 4000);
+}
+setInterval(spawnSparkle, 300);
+</script>
+</body>
+</html>
