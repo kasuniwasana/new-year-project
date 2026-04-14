@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
 <title>Aluth Avurudu | New Year Wishes 🎊</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Noto+Sans+Sinhala:wght@300;400;700&family=Noto+Sans+Tamil:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -405,16 +405,21 @@
     background-size: 60px 60px;
   }
 
+  html, body { height: 100%; }
+
   /* ── Name Input Screen ── */
   #name-screen {
     position: fixed;
-    inset: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     z-index: 200;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     background: radial-gradient(ellipse at center, #12010a 0%, #0a0208 100%);
     transition: opacity 0.8s ease, transform 0.8s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 16px;
   }
   #name-screen.hide {
     opacity: 0;
@@ -430,9 +435,11 @@
     border-radius: 28px;
     backdrop-filter: blur(30px);
     max-width: 480px;
-    width: 90%;
+    width: 100%;
     position: relative;
     animation: fadeUp 0.8s ease both;
+    margin: auto 0;
+    flex-shrink: 0;
   }
 
   .name-box-title {
@@ -643,6 +650,23 @@
 </div>
 
 <script>
+// ── Mobile keyboard fix ──
+// When soft keyboard opens, keep name-box visible & centred in the visible area
+(function () {
+  const screen = document.getElementById('name-screen');
+  function adjustForKeyboard() {
+    if (!window.visualViewport) return;
+    const vv = window.visualViewport;
+    // offsetTop = how far the visual viewport has scrolled (keyboard pushes it up)
+    screen.style.height = vv.height + 'px';
+    screen.style.top    = vv.offsetTop + 'px';
+  }
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', adjustForKeyboard);
+    window.visualViewport.addEventListener('scroll', adjustForKeyboard);
+  }
+})();
+
 // Name screen logic
 function showWish() {
   const nameInput = document.getElementById('nameInput');
